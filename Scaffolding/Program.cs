@@ -34,72 +34,80 @@ class Program
             ModelsFolder = configuration.GetSection("FoldersPathDevelopment:Models").Value;
         }
 
-        var makeArgument = new Argument<string>(
-            name: "make",
-            description: "Crear archivos");
-
         var modelOption = new Option<string>(
             name: "--model",
-            description: "Nombre del modelo",
-            getDefaultValue: () => "MyModel"
+            description: "Nombre del modelo/entidad",
+            getDefaultValue: () => "ModelExample"
             );
+
+        var folderlOption = new Option<string>(
+            name: "--folder",
+            description: "Nombre de la carpeta/namespace",
+            getDefaultValue: () => "Shared"
+            );
+
+        var makeCommand = new Command("make")
+        {
+            modelOption,
+            folderlOption
+        };
 
         var rootCommand = new RootCommand
         {
-            modelOption
+            makeCommand
         };
 
-        rootCommand.Description = "App para crear archivos del proyecto SARA";
+        rootCommand.Description = "Scaffolding para crear archivos en SARA.Server";
 
-        rootCommand.SetHandler(async (modelOptionValue) =>
+        makeCommand.SetHandler(async (modelOptionValue, folderOptionValue) =>
         {
             string entityName = $"{modelOptionValue}Entity";
-            string entityFilePath = Path.Combine($"{RootFolder}{ProjectFolder}{ModelsFolder}");
-            CreateFileModel(entityName, entityFilePath);
+            string entityFilePath = Path.Combine($"{RootFolder}{ProjectFolder}{ModelsFolder}/{folderOptionValue}");
+            CreateFileModel(entityName, entityFilePath, folderOptionValue);
 
             string repositoryName = $"{modelOptionValue}Repository";
             string interfaceName = $"I{repositoryName}";
 
-            string IRepositoryFilePath = Path.Combine($"{RootFolder}{ProjectFolder}{RepositoriesFolder}/Interfaces");
-            CreateFileInterfaceRepository(interfaceName, entityName, IRepositoryFilePath);
+            string IRepositoryFilePath = Path.Combine($"{RootFolder}{ProjectFolder}{RepositoriesFolder}/{folderOptionValue}/Interfaces");
+            CreateFileInterfaceRepository(interfaceName, entityName, IRepositoryFilePath, folderOptionValue);
 
-            string repositoryFilePath = Path.Combine($"{RootFolder}{ProjectFolder}{RepositoriesFolder}");
-            CreateFileRepository(repositoryName, interfaceName, entityName, repositoryFilePath);
+            string repositoryFilePath = Path.Combine($"{RootFolder}{ProjectFolder}{RepositoriesFolder}/{folderOptionValue}");
+            CreateFileRepository(repositoryName, interfaceName, entityName, repositoryFilePath, folderOptionValue);
 
-        }, modelOption);
+        }, modelOption, folderlOption);
 
         // Parse the incoming args and invoke the handler
         await rootCommand.InvokeAsync(args);
     }
 
-    static void CreateFileModel(string fileName, string filePath)
+    static void CreateFileModel(string entityName, string filePath, string folderNamespace)
     {
         string templateFilePath = "Templates/EntityTemplate.txt";
         string templateContent = File.ReadAllText(templateFilePath);
 
         string fileContent = templateContent
-        .Replace("{NAMESPACE}", "Example")
-        .Replace("{ENTITY_NAME}", fileName);
+        .Replace("{NAMESPACE}", folderNamespace)
+        .Replace("{ENTITY_NAME}", entityName);
 
-        Path.Combine(filePath, $"{fileName}.cs");
+        Path.Combine(filePath, $"{entityName}.cs");
 
         if (!Directory.Exists(filePath))
             Directory.CreateDirectory(filePath);
 
-        string filePathCombine = Path.Combine($"{filePath}/{fileName}.cs");
+        string filePathCombine = Path.Combine($"{filePath}/{entityName}.cs");
 
         File.WriteAllText(filePathCombine, fileContent);
-        Console.WriteLine($"Archivo {fileName}.cs creado con éxito.");
+        Console.WriteLine($"Archivo {entityName}.cs creado con éxito.");
     }
 
-    static void CreateFileRepository(string repositoryName, string IRepositoryName, string entityName, string filePath)
+    static void CreateFileRepository(string repositoryName, string IRepositoryName, string entityName, string filePath, string folderNamespace)
     {
         string templateFilePath = "Templates/RepositoryTemplate.txt";
         string templateContent = File.ReadAllText(templateFilePath);
 
 
         string fileContent = templateContent
-        .Replace("{NAMESPACE}", "Example")
+        .Replace("{NAMESPACE}", folderNamespace)
         .Replace("{REPOSITORY_NAME}", repositoryName)
         .Replace("{ENTITY_NAME}", entityName)
         .Replace("{INTERFACE_NAME}", IRepositoryName);
@@ -115,13 +123,13 @@ class Program
         Console.WriteLine($"Archivo {repositoryName}.cs creado con éxito.");
     }
 
-    static void CreateFileInterfaceRepository(string IRepositoryName, string entityName, string filePath)
+    static void CreateFileInterfaceRepository(string IRepositoryName, string entityName, string filePath, string folderNamespace)
     {
         string templateFilePath = "Templates/IRepositoryTemplate.txt";
         string templateContent = File.ReadAllText(templateFilePath);
 
         string fileContent = templateContent
-        .Replace("{NAMESPACE}", "Example")
+        .Replace("{NAMESPACE}", folderNamespace)
         .Replace("{ENTITY_NAME}", entityName)
         .Replace("{INTERFACE_NAME}", IRepositoryName);
 
