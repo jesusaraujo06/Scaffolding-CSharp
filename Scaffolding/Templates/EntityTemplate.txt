@@ -1,0 +1,12 @@
+﻿using SARA.Server.Shared.Attribute;
+
+namespace SARA.Server.Models.{NAMESPACE}
+{
+    [Table("scheme.tableName")]
+    public class {ENTITY_NAME} : BaseEntity
+    {
+        [Key]
+        public string cd_example1 { get; set; }
+        public string ds_example2 { get; set; }
+    }
+}

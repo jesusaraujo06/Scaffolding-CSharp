@@ -1,0 +1,11 @@
+﻿using SARA.Server.DTOs.Shared;
+using SARA.Server.Models.Shared;
+using SARA.Server.Shared;
+
+namespace SARA.Server.Repositories.{NAMESPACE}.Interfaces
+{
+    public interface {INTERFACE_NAME} : IGenericRepository<{ENTITY_NAME}>
+    {
+       
+    }
+}
