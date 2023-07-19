@@ -85,8 +85,10 @@ class Program
         string templateFilePath = "Templates/EntityTemplate.txt";
         string templateContent = File.ReadAllText(templateFilePath);
 
+        string folderNamespaceFormated = folderNamespace.Replace('/', '.');
+
         string fileContent = templateContent
-        .Replace("{NAMESPACE}", folderNamespace)
+        .Replace("{NAMESPACE}", folderNamespaceFormated)
         .Replace("{ENTITY_NAME}", entityName);
 
         Path.Combine(filePath, $"{entityName}.cs");
@@ -105,9 +107,10 @@ class Program
         string templateFilePath = "Templates/RepositoryTemplate.txt";
         string templateContent = File.ReadAllText(templateFilePath);
 
+        string folderNamespaceFormated = folderNamespace.Replace('/', '.');
 
         string fileContent = templateContent
-        .Replace("{NAMESPACE}", folderNamespace)
+        .Replace("{NAMESPACE}", folderNamespaceFormated)
         .Replace("{REPOSITORY_NAME}", repositoryName)
         .Replace("{ENTITY_NAME}", entityName)
         .Replace("{INTERFACE_NAME}", IRepositoryName);
@@ -128,8 +131,10 @@ class Program
         string templateFilePath = "Templates/IRepositoryTemplate.txt";
         string templateContent = File.ReadAllText(templateFilePath);
 
+        string folderNamespaceFormated = folderNamespace.Replace('/', '.');
+
         string fileContent = templateContent
-        .Replace("{NAMESPACE}", folderNamespace)
+        .Replace("{NAMESPACE}", folderNamespaceFormated)
         .Replace("{ENTITY_NAME}", entityName)
         .Replace("{INTERFACE_NAME}", IRepositoryName);
 

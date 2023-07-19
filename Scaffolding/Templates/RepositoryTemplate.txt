@@ -2,6 +2,7 @@
 using SARA.Server.DTOs.Shared;
 using SARA.Server.Models.Shared;
 using SARA.Server.Models.{NAMESPACE};
+using SARA.Server.Repositories.{NAMESPACE}.Interfaces;
 using SARA.Server.Repositories.Shared.Interfaces;
 using SARA.Server.Shared;
 using System.Data;
