@@ -1,17 +1,17 @@
 ﻿using Dapper;
 using SARA.Server.DTOs.Shared;
 using SARA.Server.Models.Shared;
+using SARA.Server.Models.{NAMESPACE};
 using SARA.Server.Repositories.Shared.Interfaces;
 using SARA.Server.Shared;
 using System.Data;
 
-namespace SARA.Server.Repositories.{NAMESPACE}
-{
-    public class {REPOSITORY_NAME} : GenericRepository<{ENTITY_NAME}>, {INTERFACE_NAME}
-    {
-        public {REPOSITORY_NAME}(IDbConnection dbConnection) : base(dbConnection)
-        {
+namespace SARA.Server.Repositories.{NAMESPACE};
 
-        }
+public class {REPOSITORY_NAME} : GenericRepository<{ENTITY_NAME}>, {INTERFACE_NAME}
+{
+    public {REPOSITORY_NAME}(IDbConnection dbConnection) : base(dbConnection)
+    {
+
     }
 }
