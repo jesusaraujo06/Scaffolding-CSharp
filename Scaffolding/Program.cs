@@ -99,7 +99,7 @@ class Program
         string filePathCombine = Path.Combine($"{filePath}/{entityName}.cs");
 
         File.WriteAllText(filePathCombine, fileContent);
-        Console.WriteLine($"Archivo {entityName}.cs creado con éxito.");
+        Console.WriteLine($"Archivo {entityName}.cs creado con éxito. ✅");
     }
 
     static void CreateFileRepository(string repositoryName, string IRepositoryName, string entityName, string filePath, string folderNamespace)
@@ -123,7 +123,7 @@ class Program
         string filePathCombine = Path.Combine($"{filePath}/{repositoryName}.cs");
 
         File.WriteAllText(filePathCombine, fileContent);
-        Console.WriteLine($"Archivo {repositoryName}.cs creado con éxito.");
+        Console.WriteLine($"Archivo {repositoryName}.cs creado con éxito. ✅");
     }
 
     static void CreateFileInterfaceRepository(string IRepositoryName, string entityName, string filePath, string folderNamespace)
@@ -146,6 +146,6 @@ class Program
         string filePathCombine = Path.Combine($"{filePath}/{IRepositoryName}.cs");
 
         File.WriteAllText(filePathCombine, fileContent);
-        Console.WriteLine($"Archivo {IRepositoryName}.cs creado con éxito.");
+        Console.WriteLine($"Archivo {IRepositoryName}.cs creado con éxito. ✅");
     }
 }
